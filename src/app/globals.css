@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #f4f4f5;
+  }
+
+  * {
+    @apply border-zinc-800;
+  }
+
+  body {
+    @apply bg-[#0a0a0a] text-zinc-100 antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-zinc-700;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-600;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-zinc-800 bg-zinc-900/50 p-6;
+  }
+
+  .btn-primary {
+    @apply rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-black
+           transition-colors hover:bg-green-400 active:bg-green-600
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold
+           text-zinc-100 transition-colors hover:bg-zinc-700 active:bg-zinc-900
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm
+           text-zinc-100 placeholder-zinc-500 outline-none transition
+           focus:border-green-500 focus:ring-1 focus:ring-green-500/30;
+  }
+}
