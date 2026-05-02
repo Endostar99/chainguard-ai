@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, FileCode2, LogOut, Plus, Zap } from "lucide-react";
+import { ArrowRight, FileCode2, LogOut, Plus, User, Zap } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { signout } from "@/app/(auth)/actions";
 import { cn, formatDate, trustScoreColor } from "@/lib/utils";
@@ -29,9 +29,13 @@ export default async function HistoryPage() {
           <h1 className="text-2xl font-bold text-zinc-100 sm:text-3xl">
             Audit History
           </h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <Link
+            href="/profile"
+            className="mt-1 flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors w-fit"
+          >
+            <User className="h-3.5 w-3.5" />
             {user?.email}
-          </p>
+          </Link>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Link href="/audit" className="btn-primary flex items-center gap-2">

@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { Shield, Zap, FileText, Award } from "lucide-react";
+import { Shield, Zap, FileText, Award, User } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Nav */}
@@ -15,12 +19,32 @@ export default function HomePage() {
             <Link href="/pricing" className="text-sm text-zinc-400 hover:text-zinc-100">
               Pricing
             </Link>
-            <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-100">
-              Sign in
-            </Link>
-            <Link href="/signup" className="btn-primary text-sm">
-              Get started free
-            </Link>
+            {user ? (
+              <>
+                <Link href="/history" className="text-sm text-zinc-400 hover:text-zinc-100">
+                  History
+                </Link>
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-100"
+                >
+                  <User className="h-4 w-4" />
+                  Profile
+                </Link>
+                <Link href="/audit" className="btn-primary text-sm">
+                  New audit
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-100">
+                  Sign in
+                </Link>
+                <Link href="/signup" className="btn-primary text-sm">
+                  Get started free
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
