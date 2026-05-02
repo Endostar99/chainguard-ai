@@ -51,7 +51,7 @@ const SEVERITY_LABEL: Record<Severity, string> = {
   info: "Info",
 };
 
-function TrustRating(score: number) {
+function getTrustRating(score: number) {
   if (score >= 90) return { label: "Excellent", color: "text-green-400" };
   if (score >= 80) return { label: "Trusted", color: "text-green-400" };
   return { label: "Moderate", color: "text-yellow-400" };
@@ -76,7 +76,7 @@ export default async function BadgePage({ params }: Props) {
 
   const report = audit.report_json;
   const contractName = audit.contract_name ?? `Contract-${auditId.slice(0, 8).toUpperCase()}`;
-  const { label: ratingLabel, color: ratingColor } = TrustRating(audit.trust_score);
+  const { label: ratingLabel, color: ratingColor } = getTrustRating(audit.trust_score);
   const totalFindings = Object.values(report.severityBreakdown).reduce(
     (sum, n) => sum + n,
     0,

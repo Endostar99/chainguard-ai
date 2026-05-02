@@ -39,10 +39,17 @@ export async function POST(request: NextRequest) {
     process.env.NEXT_PUBLIC_APP_URL ??
     "http://localhost:3000";
 
-  const session = await stripe.billingPortal.sessions.create({
-    customer: customerId,
-    return_url: `${origin}/history`,
-  });
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: `${origin}/history`,
+    });
 
-  return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url });
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to open billing portal.";
+    console.error("[stripe/portal]", err);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

@@ -91,9 +91,12 @@ export async function POST(
     .select("id")
     .single();
 
-  if (dbError) {
-    // Log but don't fail the request — the client can still see the result
-    console.error("Failed to save audit to Supabase:", dbError.message);
+  if (dbError || !savedAudit) {
+    console.error("Failed to save audit to Supabase:", dbError?.message);
+    return NextResponse.json(
+      { error: "Failed to save audit. Please try again." },
+      { status: 500 },
+    );
   }
 
   // 7. Increment the user's monthly usage counter
@@ -107,7 +110,7 @@ export async function POST(
   }
 
   return NextResponse.json({
-    auditId: savedAudit?.id ?? crypto.randomUUID(),
+    auditId: savedAudit.id,
     trustScore,
     report,
   });

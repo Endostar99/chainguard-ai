@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe/client";
 import { createClient } from "@/lib/supabase/server";
 
-const VALID_PRICE_IDS = new Set([
-  process.env.STRIPE_PRICE_STARTER_ID,
-  process.env.STRIPE_PRICE_PRO_ID,
-]);
+const VALID_PRICE_IDS = new Set(
+  [process.env.STRIPE_PRICE_STARTER_ID, process.env.STRIPE_PRICE_PRO_ID].filter(Boolean),
+);
 
 export async function POST(request: NextRequest) {
   // 1. Require auth

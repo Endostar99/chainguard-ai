@@ -223,9 +223,12 @@ export default async function ProfilePage() {
                 className="group flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-3 transition-colors hover:border-zinc-700 hover:bg-zinc-900"
               >
                 <FileCode2 className="h-4 w-4 shrink-0 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
-                <span className="flex-1 min-w-0 truncate text-sm text-zinc-300">
-                  {audit.contract_name ?? "Untitled Contract"}
-                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="truncate text-sm text-zinc-300">
+                    {audit.contract_name ?? "Untitled Contract"}
+                  </p>
+                  <p className="text-xs text-zinc-600">{formatDate(audit.created_at)}</p>
+                </div>
                 <span
                   className={cn(
                     "shrink-0 text-sm font-bold tabular-nums",
