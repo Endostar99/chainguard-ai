@@ -81,7 +81,7 @@ export default async function AuditResultPage({ params }: Props) {
                 Share Badge
               </Link>
             )}
-            <DownloadPDFButton contractName={audit.contract_name ?? undefined} />
+            <DownloadPDFButton auditId={id} contractName={audit.contract_name ?? undefined} />
           </div>
         </div>
 
@@ -201,7 +201,7 @@ export default async function AuditResultPage({ params }: Props) {
 
         {/* Bottom download button */}
         <div className="mt-10 flex justify-end no-print">
-          <DownloadPDFButton contractName={audit.contract_name ?? undefined} />
+          <DownloadPDFButton auditId={id} contractName={audit.contract_name ?? undefined} />
         </div>
       </div>
     </div>

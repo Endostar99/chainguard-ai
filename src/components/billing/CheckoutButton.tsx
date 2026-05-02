@@ -29,7 +29,16 @@ export default function CheckoutButton({
         body: JSON.stringify({ priceId }),
       });
 
-      const data = await res.json();
+      // Parse JSON separately so a server crash (HTML response) shows a
+      // useful status code rather than the generic "Network error" message.
+      let data: { url?: string; error?: string };
+      try {
+        data = await res.json();
+      } catch {
+        setError(`Server error (HTTP ${res.status}). Check the dev console.`);
+        setLoading(false);
+        return;
+      }
 
       if (!res.ok || !data.url) {
         setError(data.error ?? "Something went wrong. Please try again.");
@@ -39,7 +48,7 @@ export default function CheckoutButton({
 
       window.location.href = data.url;
     } catch {
-      setError("Network error. Please try again.");
+      setError("Could not reach the server. Check your connection.");
       setLoading(false);
     }
   };

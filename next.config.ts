@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable React strict mode for better development experience
   reactStrictMode: true,
 
-  // Image domains for external images (add as needed)
+  // Let Next.js use the installed Node.js copy of these packages rather than
+  // bundling them — required for @react-pdf/renderer which uses Node internals.
+  serverExternalPackages: ["@react-pdf/renderer"],
+
   images: {
     remotePatterns: [
       {
@@ -12,11 +14,6 @@ const nextConfig: NextConfig = {
         hostname: "avatars.githubusercontent.com",
       },
     ],
-  },
-
-  // Transpile packages if needed
-  experimental: {
-    // Enable server actions (already default in Next.js 15)
   },
 };
 
