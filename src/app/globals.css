@@ -31,6 +31,26 @@
   }
 }
 
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .card {
+    break-inside: avoid;
+  }
+
+  pre {
+    break-inside: avoid;
+    white-space: pre-wrap;
+  }
+}
+
 @layer components {
   .card {
     @apply rounded-xl border border-zinc-800 bg-zinc-900/50 p-6;
