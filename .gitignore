@@ -45,3 +45,10 @@ yarn-error.log*
 # Supabase local dev
 supabase/.branches
 supabase/.temp
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

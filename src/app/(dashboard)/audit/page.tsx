@@ -230,6 +230,7 @@ export default function AuditPage() {
                     </p>
                   </div>
                   <button
+                    aria-label="Remove file"
                     onClick={() => {
                       setUploadedFile(null);
                       setCode("");
