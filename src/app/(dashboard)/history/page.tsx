@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, FileCode2, LogOut, Plus } from "lucide-react";
+import { ArrowRight, FileCode2, LogOut, Plus, Zap } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { signout } from "@/app/(auth)/actions";
 import { cn, formatDate, trustScoreColor } from "@/lib/utils";
@@ -37,6 +37,10 @@ export default async function HistoryPage() {
           <Link href="/audit" className="btn-primary flex items-center gap-2">
             <Plus className="h-4 w-4" />
             New audit
+          </Link>
+          <Link href="/pricing" className="btn-secondary flex items-center gap-2">
+            <Zap className="h-4 w-4" />
+            <span className="hidden sm:inline">Upgrade</span>
           </Link>
           <form action={signout}>
             <button

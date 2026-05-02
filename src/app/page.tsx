@@ -12,6 +12,9 @@ export default function HomePage() {
             <span className="text-lg font-bold">ChainGuard AI</span>
           </div>
           <div className="flex items-center gap-4">
+            <Link href="/pricing" className="text-sm text-zinc-400 hover:text-zinc-100">
+              Pricing
+            </Link>
             <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-100">
               Sign in
             </Link>
