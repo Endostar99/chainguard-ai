@@ -37,7 +37,7 @@ create table if not exists public.subscriptions (
 alter table public.audits enable row level security;
 alter table public.subscriptions enable row level security;
 
--- Users can read their own audits
+-- Users can read their own audits (authenticated only — anonymous coverage in 002)
 create policy "Users can view own audits"
   on public.audits for select
   using (auth.uid() = user_id);

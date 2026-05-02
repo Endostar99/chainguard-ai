@@ -115,7 +115,13 @@ export default function VulnCard({ vuln, defaultOpen = false }: Props) {
 
           {vuln.reference && (
             <a
-              href={`https://swcregistry.io/docs/${vuln.reference}`}
+              href={
+                vuln.reference.startsWith("SWC-")
+                  ? `https://swcregistry.io/docs/${vuln.reference}`
+                  : vuln.reference.startsWith("OWASP")
+                  ? `https://owasp.org/www-project-smart-contract-top-10/`
+                  : `https://swcregistry.io/docs/${vuln.reference}`
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-green-400 hover:text-green-300 transition-colors"

@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${origin}/history?upgraded=true`,
+      success_url: `${origin}/pricing?upgraded=true`,
       cancel_url: `${origin}/pricing`,
       allow_promotion_codes: true,
       subscription_data: {
