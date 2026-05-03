@@ -107,6 +107,17 @@ export default function AuditPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-12">
+      {/* Back button */}
+      <button
+        onClick={() => router.back()}
+        className="mb-6 flex items-center gap-1.5 text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Back
+      </button>
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold">New Audit</h1>
