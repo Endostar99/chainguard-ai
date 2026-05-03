@@ -83,14 +83,28 @@ export default function AuditPage() {
         }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error ?? "Failed to run audit. Please try again.");
+      // Always try to parse JSON first; fall back to a status-based message
+      // if the server returned HTML (e.g. a Vercel 504 timeout page).
+      let data: { error?: string; auditId?: string } | null = null;
+      try {
+        data = await res.json();
+      } catch {
+        if (res.status === 504 || res.status === 524) {
+          setError(
+            "The audit timed out — the contract may be too complex. Try again or split it into smaller files.",
+          );
+        } else {
+          setError(`Server error (${res.status}). Please try again.`);
+        }
         return;
       }
 
-      router.push(`/audit/${data.auditId}`);
+      if (!res.ok) {
+        setError(data?.error ?? "Failed to run audit. Please try again.");
+        return;
+      }
+
+      router.push(`/audit/${data!.auditId}`);
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {

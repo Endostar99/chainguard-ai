@@ -19,6 +19,20 @@ const RequestSchema = z.object({
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<AuditApiResponse | ApiError>> {
+  try {
+    return await handlePost(request);
+  } catch (err) {
+    console.error("[/api/audit] Unhandled error:", err);
+    return NextResponse.json(
+      { error: "An unexpected error occurred. Please try again." },
+      { status: 500 },
+    );
+  }
+}
+
+async function handlePost(
+  request: NextRequest,
+): Promise<NextResponse<AuditApiResponse | ApiError>> {
   // 1. Parse and validate request body
   let body: unknown;
   try {
