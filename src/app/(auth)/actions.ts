@@ -52,6 +52,26 @@ export async function signup(
   redirect("/login?message=Check+your+email+to+confirm+your+account.");
 }
 
+export async function signInWithGoogle(
+  _prevState: AuthState,
+): Promise<AuthState> {
+  const supabase = await createClient();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${siteUrl}/api/auth?next=/audit`,
+    },
+  });
+
+  if (error || !data.url) {
+    return { error: "Google sign-in failed. Please try again." };
+  }
+
+  redirect(data.url);
+}
+
 export async function signout() {
   const supabase = await createClient();
   await supabase.auth.signOut();

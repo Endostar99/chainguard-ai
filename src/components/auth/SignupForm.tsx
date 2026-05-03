@@ -4,12 +4,22 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { signup } from "@/app/(auth)/actions";
+import GoogleButton from "@/components/auth/GoogleButton";
 
 export default function SignupForm() {
   const [state, formAction, isPending] = useActionState(signup, null);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
+    <div className="space-y-4">
+      <GoogleButton />
+
+      <div className="flex items-center gap-3">
+        <div className="h-px flex-1 bg-zinc-800" />
+        <span className="text-xs text-zinc-500">or</span>
+        <div className="h-px flex-1 bg-zinc-800" />
+      </div>
+
     <form action={formAction} className="space-y-4">
       {state?.error && (
         <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
@@ -94,5 +104,6 @@ export default function SignupForm() {
         </Link>
       </p>
     </form>
+    </div>
   );
 }
