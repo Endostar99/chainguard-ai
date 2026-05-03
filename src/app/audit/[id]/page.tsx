@@ -4,10 +4,10 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Cpu, Share2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import type { AuditRow, Severity } from "@/types";
-import { cn, formatDate, severityColor, trustScoreColor } from "@/lib/utils";
+import { cn, formatDate, trustScoreColor } from "@/lib/utils";
 import TrustGauge from "@/components/audit/TrustGauge";
 import SeverityChart from "@/components/audit/SeverityChart";
-import VulnCard from "@/components/audit/VulnCard";
+import VulnList from "@/components/audit/VulnList";
 import DownloadPDFButton from "@/components/audit/DownloadPDFButton";
 
 interface Props {
@@ -139,24 +139,6 @@ export default async function AuditResultPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Severity pill summary */}
-        {totalFindings > 0 && (
-          <div className="flex flex-wrap gap-x-4 gap-y-1 mb-8">
-            {SEVERITY_ORDER.map((sev) => {
-              const count = report.severityBreakdown[sev] ?? 0;
-              if (count === 0) return null;
-              return (
-                <span
-                  key={sev}
-                  className={cn("text-sm font-semibold tabular-nums", severityColor(sev))}
-                >
-                  {count} {sev}
-                </span>
-              );
-            })}
-          </div>
-        )}
-
         {/* Disclaimer */}
         <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-4 py-3 mb-8 text-xs text-yellow-400/80 leading-relaxed">
           <strong className="font-semibold">Advisory only.</strong> This report is
@@ -164,22 +146,9 @@ export default async function AuditResultPage({ params }: Props) {
           deployment.
         </div>
 
-        {/* Vulnerability cards */}
+        {/* Vulnerability cards with severity tabs */}
         {vulns.length > 0 ? (
-          <section>
-            <h2 className="text-lg font-semibold text-zinc-100 mb-4">
-              Vulnerabilities
-            </h2>
-            <div className="space-y-3">
-              {vulns.map((vuln, i) => (
-                <VulnCard
-                  key={vuln.id}
-                  vuln={vuln}
-                  defaultOpen={vuln.severity === "critical" || vuln.severity === "high" ? i < 3 : false}
-                />
-              ))}
-            </div>
-          </section>
+          <VulnList vulns={vulns} severityBreakdown={report.severityBreakdown} />
         ) : (
           <div className="card text-center py-12">
             <div

@@ -10,6 +10,22 @@ interface Props {
   defaultOpen?: boolean;
 }
 
+function getReferenceUrl(ref: string): string | null {
+  if (/^SWC-\d+$/.test(ref)) {
+    return `https://github.com/SmartContractSecurity/SWC-registry/blob/master/docs/${ref}/README.md`;
+  }
+  if (/^OWASP(-SC-\d+)?$/.test(ref)) {
+    return "https://owasp.org/www-project-smart-contract-top-10/";
+  }
+  if (/^ERC-(\d+)$/.test(ref)) {
+    return `https://eips.ethereum.org/EIPS/eip-${ref.slice(4)}`;
+  }
+  if (/^EIP-(\d+)$/.test(ref)) {
+    return `https://eips.ethereum.org/EIPS/eip-${ref.slice(4)}`;
+  }
+  return null;
+}
+
 const BORDER_ACCENT: Record<Severity, string> = {
   critical: "border-l-red-500",
   high: "border-l-orange-500",
@@ -113,23 +129,24 @@ export default function VulnCard({ vuln, defaultOpen = false }: Props) {
             </div>
           )}
 
-          {vuln.reference && (
-            <a
-              href={
-                vuln.reference.startsWith("SWC-")
-                  ? `https://swcregistry.io/docs/${vuln.reference}`
-                  : vuln.reference.startsWith("OWASP")
-                  ? `https://owasp.org/www-project-smart-contract-top-10/`
-                  : `https://swcregistry.io/docs/${vuln.reference}`
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-green-400 hover:text-green-300 transition-colors"
-            >
-              <ExternalLink className="w-3 h-3" />
-              {vuln.reference}
-            </a>
-          )}
+          {vuln.reference && (() => {
+            const url = getReferenceUrl(vuln.reference);
+            return url ? (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-green-400 hover:text-green-300 transition-colors"
+              >
+                <ExternalLink className="w-3 h-3" />
+                {vuln.reference}
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500">
+                {vuln.reference}
+              </span>
+            );
+          })()}
         </div>
       )}
     </div>
