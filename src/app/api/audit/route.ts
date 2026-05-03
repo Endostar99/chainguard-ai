@@ -6,6 +6,8 @@ import { calculateTrustScore } from "@/lib/utils";
 import type { AuditApiResponse, ApiError } from "@/types";
 import { PLAN_LIMITS } from "@/types";
 
+export const maxDuration = 60; // Claude audit can take up to ~30s
+
 const RequestSchema = z.object({
   contractCode: z
     .string()

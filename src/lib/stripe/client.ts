@@ -1,13 +1,19 @@
 import Stripe from "stripe";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("Missing STRIPE_SECRET_KEY environment variable");
-}
+let _stripe: Stripe | null = null;
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-02-24.acacia",
-  typescript: true,
-});
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error("Missing STRIPE_SECRET_KEY environment variable");
+    }
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-02-24.acacia",
+      typescript: true,
+    });
+  }
+  return _stripe;
+}
 
 /** Stripe Price IDs — set these after creating products in your Stripe dashboard */
 export const STRIPE_PRICE_IDS = {

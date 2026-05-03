@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe/client";
+import { getStripe } from "@/lib/stripe/client";
 import { createClient } from "@/lib/supabase/server";
 
 const VALID_PRICE_IDS = new Set(
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       ?.stripe_customer_id;
 
     if (!customerId) {
-      const customer = await stripe.customers.create({
+      const customer = await getStripe().customers.create({
         email: user.email!,
         metadata: { supabase_user_id: user.id },
       });
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       process.env.NEXT_PUBLIC_APP_URL ??
       "http://localhost:3000";
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
       payment_method_types: ["card"],
