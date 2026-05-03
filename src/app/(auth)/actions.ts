@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 type AuthState = { error: string } | null;
@@ -33,7 +34,7 @@ export async function signup(
   }
 
   const supabase = await createClient();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = await getSiteUrl();
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -52,11 +53,18 @@ export async function signup(
   redirect("/login?message=Check+your+email+to+confirm+your+account.");
 }
 
+async function getSiteUrl(): Promise<string> {
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "localhost:3000";
+  const protocol = host.includes("localhost") ? "http" : "https";
+  return `${protocol}://${host}`;
+}
+
 export async function signInWithGoogle(
   _prevState: AuthState,
 ): Promise<AuthState> {
   const supabase = await createClient();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = await getSiteUrl();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
